@@ -24,6 +24,14 @@ START = time.time()
 contexts: dict[tuple[str, str], dict] = {}    # (scope, context_id) -> {version, payload}
 conversations: dict[str, list] = {}           # conversation_id -> [turns]
 
+@app.get("/")
+async def root():
+    return {
+        "status": "online",
+        "bot": "Vera AI Merchant Assistant",
+        "endpoints": ["/v1/healthz", "/v1/metadata", "/v1/context", "/v1/tick", "/v1/reply"]
+    }
+
 @app.get("/v1/healthz")
 async def healthz():
     counts = {"category": 0, "merchant": 0, "customer": 0, "trigger": 0}
